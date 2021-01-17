@@ -5,7 +5,7 @@ Might work for other calendar providers too.
 
 # Usage
 
-- Get install requirements.txt, or just `pip install --user -U calendar-cli`
+- `pip install --user -U calendar-cli`
 - Edit the variables in the main section of the script:
 
 ```python
