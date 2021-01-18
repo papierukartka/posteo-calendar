@@ -2,7 +2,6 @@ import json
 import subprocess
 import urllib3
 from time import sleep
-# TODO: caldav url, calendar url
 
 
 def holidata_events_jsonl(url='https://holidata.net/pl-PL/2021.json'):
@@ -48,15 +47,15 @@ def create_whole_day_event(calendar_url, caldav_url, caldav_user, caldav_pass, d
         f"--caldav-user={caldav_user}",
         f"--caldav-pass={caldav_pass}",
         f"--calendar-url={calendar_url}",
-        f"calendar add --whole-day {date} {event_name}",
+        f"calendar add --whole-day '{date}+1d' '{event_name}'",
         ],
     )
     sleep(2)  # avoid being blocked
 
 
 if __name__ == "__main__":
-    calendar_url = ''
-    caldav_url = ''
+    calendar_url = '' # calendar url found on Posteo under Settings > Calendar
+    caldav_url = 'https://posteo.de:8443/'
     user = 'me@posteo.net',
     password = 'mypass'
 
