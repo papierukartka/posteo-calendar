@@ -39,15 +39,16 @@ def prep_events(event_list):
     return event_list
 
 
-def create_whole_day_event(calendar_url, caldav_url, caldav_user, caldav_pass, date='2021-01-16', event_name="testevent"):
+def create_whole_day_event(calendar_url, caldav_url, caldav_user, caldav_pass, date, event_name):
     # https://github.com/tobixen/calendar-cli
+    # ugly subprocess run, but i dare u to try it the valid way
+    # TODO: caldav_user is a tuple here for some reason
     subprocess.run(shell=True, check=True, args=[
-        "calendar-cli",
-        f"--caldav-url={caldav_url}",
-        f"--caldav-user={caldav_user}",
-        f"--caldav-pass={caldav_pass}",
-        f"--calendar-url={calendar_url}",
-        f"calendar add --whole-day '{date}+1d' '{event_name}'",
+        f"calendar-cli --caldav-url={caldav_url} \
+        --caldav-user={caldav_user[0]} \
+        --caldav-pass={caldav_pass} \
+        --calendar-url={calendar_url} \
+        calendar add --whole-day {date}+1d {event_name}"
         ],
     )
     sleep(2)  # avoid being blocked
@@ -57,7 +58,7 @@ if __name__ == "__main__":
     calendar_url = '' # calendar url found on Posteo under Settings > Calendar
     caldav_url = 'https://posteo.de:8443/'
     user = 'me@posteo.net',
-    password = 'mypass'
+    password = ''
 
     holidays = prep_events(
         jsonl_to_json(
@@ -66,5 +67,5 @@ if __name__ == "__main__":
     )
 
     for event in holidays:
-        print(f"{event['date']}: {event['description']}")
+        print(f"Adding {event['description']} on {event['date']}...")
         #create_whole_day_event(calendar_url, caldav_url, user, password, event['date'], event['description'])
